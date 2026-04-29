@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,7 +20,7 @@ public class Prescribes {
     private String dose;
 
     // Maps to the "Appointment INTEGER" foreign key in your DDL
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Appointment", referencedColumnName = "AppointmentID")
     private Appointment appointment;
 
