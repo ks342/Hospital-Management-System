@@ -3,7 +3,7 @@ package cg.hospital.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Department")
+@Table(name = "department")
 public class Department {
 
     @Id
