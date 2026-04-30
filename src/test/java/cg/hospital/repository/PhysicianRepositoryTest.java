@@ -34,7 +34,7 @@ public class PhysicianRepositoryTest {
     @Test
     public void testFindByName() {
         List<Physician> list =
-            physicianRepository.findByName("John Dorian");
+            physicianRepository.findByName("John Dorian Updated");
         assertThat(list).isNotEmpty();
     }
 
