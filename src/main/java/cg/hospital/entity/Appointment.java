@@ -2,6 +2,7 @@ package cg.hospital.entity;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -21,7 +22,7 @@ public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "AppointmentID", nullable = false)
-    private Integer appointmentID;
+    private Integer appointmentId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Patient", referencedColumnName = "SSN", nullable = false)
@@ -45,15 +46,16 @@ public class Appointment {
     private String examinationRoom;
 
     // The HATEOAS relationship builder
+    @JsonIgnore
     @OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Prescribes prescriptions;
 
-    public Integer getAppointmentID() {
-        return appointmentID;
+    public Integer getAppointmentId() {
+        return appointmentId;
     }
 
-    public void setAppointmentID(Integer appointmentID) {
-        this.appointmentID = appointmentID;
+    public void setAppointmentId(Integer appointmentId) {
+        this.appointmentId = appointmentId;
     }
 
     public Patient getPatientEntity() {

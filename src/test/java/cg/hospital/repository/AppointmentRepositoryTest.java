@@ -35,9 +35,9 @@ public class AppointmentRepositoryTest {
         Page<Appointment> page = appointmentRepository.findAll(pageable);
         if (page.hasContent()) {
             Appointment first = page.getContent().get(0);
-            Appointment found = appointmentRepository.findById(first.getAppointmentID()).orElse(null);
+            Appointment found = appointmentRepository.findById(first.getAppointmentId()).orElse(null);
             assertThat(found).isNotNull();
-            assertThat(found.getAppointmentID()).isEqualTo(first.getAppointmentID());
+            assertThat(found.getAppointmentId()).isEqualTo(first.getAppointmentId());
         }
     }
 
@@ -70,6 +70,16 @@ public class AppointmentRepositoryTest {
         assertThat(page).isNotNull();
         if (page.hasContent()) {
             assertThat(page.getContent().get(0).getPhysicianEntity().getEmployeeId()).isEqualTo(1);
+        }
+    }
+
+    @Test
+    public void testFindByPrepNurseEntityEmployeeId() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Appointment> page = appointmentRepository.findByPrepNurseEntityEmployeeId(101, pageable);
+        assertThat(page).isNotNull();
+        if (page.hasContent()) {
+            assertThat(page.getContent().get(0).getPrepNurseEntity().getEmployeeId()).isEqualTo(101);
         }
     }
 

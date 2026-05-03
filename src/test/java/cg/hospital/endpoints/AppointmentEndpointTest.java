@@ -52,6 +52,12 @@ public class AppointmentEndpointTest {
     }
 
     @Test
+    public void testFindByPrepNurseEntityEmployeeId() throws Exception {
+        mockMvc.perform(get("/api/appointments/search/findByPrepNurseEntityEmployeeId").param("nurse", "101"))
+            .andExpect(status().isOk());
+    }
+
+    @Test
     public void testCreateAppointment() throws Exception {
         // Need HATEOAS links to relationships for standard REST
         String json = """

@@ -23,4 +23,8 @@ public interface AppointmentRepository
     Page<Appointment> findByPhysicianEntityEmployeeId(
             @Param("physician") Integer physician,
             Pageable pageable);
+
+    Page<Appointment> findByPrepNurseEntityEmployeeId(
+            @Param("nurse") Integer nurse,
+            Pageable pageable);
 }

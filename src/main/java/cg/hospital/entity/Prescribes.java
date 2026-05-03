@@ -1,5 +1,6 @@
 package cg.hospital.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -20,19 +21,23 @@ public class Prescribes {
     private String dose;
 
     // Maps to the "Appointment INTEGER" foreign key in your DDL
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Appointment", referencedColumnName = "AppointmentID")
     private Appointment appointment;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Physician", referencedColumnName = "EmployeeID", insertable = false, updatable = false)
     private Physician physicianEntity;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Patient", referencedColumnName = "SSN", insertable = false, updatable = false)
     private Patient patientEntity;
 
     // Provides easy reading of the joined Medication details
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Medication", referencedColumnName = "Code", insertable = false, updatable = false)
     private Medication medicationEntity;
@@ -85,5 +90,4 @@ public class Prescribes {
         this.patientEntity = patientEntity;
     }
 
-    
 }

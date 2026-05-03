@@ -19,7 +19,7 @@ public class PrescribesEndpointTest {
 
     @Test
     public void testFindByAppointment_AppointmentID() throws Exception {
-        mockMvc.perform(get("/api/prescriptions/search/findByAppointment_AppointmentID").param("id", "1"))
+        mockMvc.perform(get("/api/prescriptions/search/findByAppointment_AppointmentId").param("id", "1"))
             .andExpect(status().isOk());
     }
 

@@ -39,7 +39,7 @@ public class PrescribesRepositoryTest {
         // Assuming an appointment ID exists, we can fetch all Prescribes to get a valid
         // ID if needed,
         // but testing the method invocation is sufficient for JPA tests.
-        Page<Prescribes> page = prescribesRepository.findByAppointment_AppointmentID(1, pageable);
+        Page<Prescribes> page = prescribesRepository.findByAppointment_AppointmentId(1, pageable);
         assertThat(page).isNotNull();
     }
 

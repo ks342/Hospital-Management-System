@@ -10,7 +10,7 @@ import cg.hospital.entity.Appointment;
 @Projection(name = "appointmentView", types = {Appointment.class})
 public interface AppointmentProjection {
 
-    Integer getAppointmentID();
+    Integer getAppointmentId();
 
     LocalDateTime getStarto();
 

@@ -5,20 +5,10 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Undergoes")
-@IdClass(UndergoesId.class)
 public class Undergoes {
 
-	// Composite PK — Part 1: Procedures (FK to Procedures.Code)
-	// Plain Integer in @Id — @IdClass cannot hold entity references
-	@Id
-	@Column(name = "Procedures")
-	private Integer procedures;
-
-	// Composite PK — Part 2: Stay (FK to Stay.StayID)
-	// Plain Integer in @Id — same rule as above
-	@Id
-	@Column(name = "Stay")
-	private Integer stay;
+    @EmbeddedId
+    private UndergoesId id;
 
 	@Column(name = "DateUndergoes")
 	private LocalDateTime dateUndergoes;
@@ -52,12 +42,20 @@ public class Undergoes {
 	}
 
 	// Getters
+	public UndergoesId getId() {
+		return id;
+	}
+
+	public void setId(UndergoesId id) {
+		this.id = id;
+	}
+
 	public Integer getProcedures() {
-		return procedures;
+		return id != null ? id.getProcedures() : null;
 	}
 
 	public Integer getStay() {
-		return stay;
+		return id != null ? id.getStay() : null;
 	}
 
 	public LocalDateTime getDateUndergoes() {
@@ -86,11 +84,17 @@ public class Undergoes {
 
 	// Setters
 	public void setProcedures(Integer procedures) {
-		this.procedures = procedures;
+		if (this.id == null) {
+			this.id = new UndergoesId();
+		}
+		this.id.setProcedures(procedures);
 	}
 
 	public void setStay(Integer stay) {
-		this.stay = stay;
+		if (this.id == null) {
+			this.id = new UndergoesId();
+		}
+		this.id.setStay(stay);
 	}
 
 	public void setDateUndergoes(LocalDateTime dateUndergoes) {

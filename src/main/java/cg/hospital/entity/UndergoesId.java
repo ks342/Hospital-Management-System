@@ -1,15 +1,19 @@
 package cg.hospital.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Embeddable
 public class UndergoesId implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
+
+	@Column(name = "Procedures")
 	private Integer procedures;
+
+	@Column(name = "Stay")
 	private Integer stay;
 
 	public UndergoesId() {
@@ -24,8 +28,16 @@ public class UndergoesId implements Serializable {
 		return procedures;
 	}
 
+	public void setProcedures(Integer procedures) {
+		this.procedures = procedures;
+	}
+
 	public Integer getStay() {
 		return stay;
+	}
+
+	public void setStay(Integer stay) {
+		this.stay = stay;
 	}
 
 	@Override

@@ -13,8 +13,8 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface PrescribesRepository
         extends JpaRepository<Prescribes, PrescribesId> {
 
-    // GET /api/prescriptions/search/findByAppointment_AppointmentID?id={id}
-    Page<Prescribes> findByAppointment_AppointmentID(
+    // GET /api/prescriptions/search/findByAppointment_AppointmentId?id={id}
+    Page<Prescribes> findByAppointment_AppointmentId(
             @Param("id") Integer appointmentId,
             Pageable pageable);
 

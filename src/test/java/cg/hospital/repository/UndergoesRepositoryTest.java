@@ -29,14 +29,14 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Date=2008-05-13, Physician=3, AssistingNurse=103 Patient=100000004,
  * Procedures=5, Stay=3217, Date=2008-05-09, Physician=6, AssistingNurse=NULL
  *
- * So: findByProcedures(1) → 1 record (Stay=3217, Physician=3)
- * findByProcedures(999) → 0 records
+ * So: findByIdProcedures(1) → 1 record (Stay=3217, Physician=3)
+ * findByIdProcedures(999) → 0 records
  *
  * Total: 6 test cases (JPA).
  *
- * NOTE: The repository method is: List<Undergoes> findByProcedures(Integer
+ * NOTE: The repository method is: List<Undergoes> findByIdProcedures(Integer
  * procedures); Spring Data REST exposes it as: GET
- * /api/undergoes/search/findByProcedures?procedures={value} (method name
+ * /api/undergoes/search/findByIdProcedures?procedures={value} (method name
  * becomes the URL segment — this is what you saw working in Postman)
  */
 @DataJpaTest
@@ -47,14 +47,14 @@ public class UndergoesRepositoryTest {
 	private UndergoesRepository undergoesRepository;
 
 	// -----------------------------------------------------------------------
-	// Test 1 (Page 3 Tab 2 #1): findByProcedures(1) returns non-empty list.
+	// Test 1 (Page 3 Tab 2 #1): findByIdProcedures(1) returns non-empty list.
 	//
 	// Procedure code=1 (Reverse Rhinopodoplasty) has 1 record in undergoes
 	// per seed data (Stay=3217, Physician=3).
 	// -----------------------------------------------------------------------
 	@Test
 	public void testFindUndergoesForProcedure() {
-		List<Undergoes> result = undergoesRepository.findByProcedures(1);
+		List<Undergoes> result = undergoesRepository.findByIdProcedures(1);
 
 		assertThat(result).isNotEmpty();
 		// All returned records must have procedures = 1
@@ -71,7 +71,7 @@ public class UndergoesRepositoryTest {
 	// -----------------------------------------------------------------------
 	@Test
 	public void testUndergoesStayEntityField() {
-		List<Undergoes> result = undergoesRepository.findByProcedures(1);
+		List<Undergoes> result = undergoesRepository.findByIdProcedures(1);
 
 		assertThat(result).isNotEmpty();
 		result.forEach(u -> {
@@ -84,13 +84,13 @@ public class UndergoesRepositoryTest {
 	}
 
 	// -----------------------------------------------------------------------
-	// Test 3 (Page 3 Tab 2 #3): findByProcedures(999) returns empty list.
+	// Test 3 (Page 3 Tab 2 #3): findByIdProcedures(999) returns empty list.
 	//
 	// Procedure code=999 does not exist in undergoes or procedures tables.
 	// -----------------------------------------------------------------------
 	@Test
 	public void testNoUndergoesForProcedure() {
-		List<Undergoes> result = undergoesRepository.findByProcedures(999);
+		List<Undergoes> result = undergoesRepository.findByIdProcedures(999);
 
 		assertThat(result).isEmpty();
 	}
@@ -104,7 +104,7 @@ public class UndergoesRepositoryTest {
 	// -----------------------------------------------------------------------
 	@Test
 	public void testUndergoesPhysicianField() {
-		List<Undergoes> result = undergoesRepository.findByProcedures(1);
+		List<Undergoes> result = undergoesRepository.findByIdProcedures(1);
 
 		assertThat(result).isNotEmpty();
 		Undergoes record = result.get(0);
@@ -117,13 +117,13 @@ public class UndergoesRepositoryTest {
 	}
 
 	// -----------------------------------------------------------------------
-	// Test 5: findByProcedures(2) returns records — procedure=2 has 1 record.
+	// Test 5: findByIdProcedures(2) returns records — procedure=2 has 1 record.
 	//
 	// From seed: Patient=100000001, Procedures=2, Stay=3215.
 	// -----------------------------------------------------------------------
 	@Test
 	public void testFindUndergoesForProcedure_code2() {
-		List<Undergoes> result = undergoesRepository.findByProcedures(2);
+		List<Undergoes> result = undergoesRepository.findByIdProcedures(2);
 
 		assertThat(result).isNotEmpty();
 		result.forEach(u -> assertThat(u.getProcedures()).isEqualTo(2));

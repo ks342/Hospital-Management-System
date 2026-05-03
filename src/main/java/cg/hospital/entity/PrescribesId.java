@@ -1,5 +1,6 @@
 package cg.hospital.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -7,7 +8,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
-public class PrescribesId {
+public class PrescribesId implements Serializable {
     @Column(name = "Physician", nullable = false)
     private Integer physician;
 
@@ -54,36 +55,39 @@ public class PrescribesId {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + Objects.hashCode(this.physician);
-        hash = 97 * hash + Objects.hashCode(this.patient);
-        hash = 97 * hash + Objects.hashCode(this.medication);
-        hash = 97 * hash + Objects.hashCode(this.date);
-        return hash;
+        return Objects.hash(physician, patient, medication, date);
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        if (this == obj)
             return true;
-        }
-        if (obj == null) {
+        if (obj == null)
             return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass())
             return false;
-        }
-        final PrescribesId other = (PrescribesId) obj;
-        if (!Objects.equals(this.physician, other.physician)) {
+        PrescribesId other = (PrescribesId) obj;
+        if (physician == null) {
+            if (other.physician != null)
+                return false;
+        } else if (!physician.equals(other.physician))
             return false;
-        }
-        if (!Objects.equals(this.patient, other.patient)) {
+        if (patient == null) {
+            if (other.patient != null)
+                return false;
+        } else if (!patient.equals(other.patient))
             return false;
-        }
-        if (!Objects.equals(this.medication, other.medication)) {
+        if (medication == null) {
+            if (other.medication != null)
+                return false;
+        } else if (!medication.equals(other.medication))
             return false;
-        }
-        return Objects.equals(this.date, other.date);
+        if (date == null) {
+            if (other.date != null)
+                return false;
+        } else if (!date.equals(other.date))
+            return false;
+        return true;
     }
 
 }
