@@ -13,6 +13,11 @@ public interface UndergoesRepository extends JpaRepository<Undergoes, UndergoesI
     // Derived query: SELECT * FROM Undergoes WHERE id.procedures = ?
     // No JPQL — Spring derives from method name findByIdProcedures
     // Used in Page 3 Tab 2: fetch all undergoes records for a given procedure code
+
+	List<Undergoes> findById_Procedures(Integer procedures);
+
+	List<Undergoes> findByAssistingNurse_EmployeeId(Integer employeeId);
     @org.springframework.data.rest.core.annotation.RestResource(path = "findByProcedures")
     List<Undergoes> findByIdProcedures(@org.springframework.data.repository.query.Param("procedures") Integer procedures);
+
 }

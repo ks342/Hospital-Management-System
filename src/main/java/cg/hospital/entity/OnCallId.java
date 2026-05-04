@@ -1,9 +1,8 @@
 package cg.hospital.entity;
 
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
+import jakarta.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Embeddable
@@ -18,22 +17,28 @@ public class OnCallId implements Serializable {
     @Column(name = "BlockCode")
     private Integer blockCode;
 
+    @Column(name = "OnCallStart")
+    private LocalDateTime onCallStart;
+
+    @Column(name = "OnCallEnd")
+    private LocalDateTime onCallEnd;
+
     public OnCallId() {}
 
-    public OnCallId(Integer nurse, Integer blockFloor, Integer blockCode) {
-        this.nurse      = nurse;
+    public OnCallId(Integer nurse, Integer blockFloor, Integer blockCode,
+                    LocalDateTime start, LocalDateTime end) {
+        this.nurse = nurse;
         this.blockFloor = blockFloor;
-        this.blockCode  = blockCode;
+        this.blockCode = blockCode;
+        this.onCallStart = start;
+        this.onCallEnd = end;
     }
 
-    public Integer getNurse()                 { return nurse; }
-    public void setNurse(Integer n)           { this.nurse = n; }
-
-    public Integer getBlockFloor()            { return blockFloor; }
-    public void setBlockFloor(Integer f)      { this.blockFloor = f; }
-
-    public Integer getBlockCode()             { return blockCode; }
-    public void setBlockCode(Integer c)       { this.blockCode = c; }
+    public Integer getNurse() { return nurse; }
+    public Integer getBlockFloor() { return blockFloor; }
+    public Integer getBlockCode() { return blockCode; }
+    public LocalDateTime getOnCallStart() { return onCallStart; }
+    public LocalDateTime getOnCallEnd() { return onCallEnd; }
 
     @Override
     public boolean equals(Object o) {
@@ -42,11 +47,35 @@ public class OnCallId implements Serializable {
         OnCallId that = (OnCallId) o;
         return Objects.equals(nurse, that.nurse) &&
                Objects.equals(blockFloor, that.blockFloor) &&
-               Objects.equals(blockCode, that.blockCode);
+               Objects.equals(blockCode, that.blockCode) &&
+               Objects.equals(onCallStart, that.onCallStart) &&
+               Objects.equals(onCallEnd, that.onCallEnd);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(nurse, blockFloor, blockCode);
+        return Objects.hash(nurse, blockFloor, blockCode, onCallStart, onCallEnd);
     }
+
+	public void setNurse(Integer nurse) {
+		this.nurse = nurse;
+	}
+
+	public void setBlockFloor(Integer blockFloor) {
+		this.blockFloor = blockFloor;
+	}
+
+	public void setBlockCode(Integer blockCode) {
+		this.blockCode = blockCode;
+	}
+
+	public void setOnCallStart(LocalDateTime onCallStart) {
+		this.onCallStart = onCallStart;
+	}
+
+	public void setOnCallEnd(LocalDateTime onCallEnd) {
+		this.onCallEnd = onCallEnd;
+	}
+    
+    
 }

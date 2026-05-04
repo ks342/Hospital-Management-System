@@ -32,8 +32,8 @@ public class GlobalExceptionHandler {
 
 	// ── 404: resource not found ───────────────────────────────────────────────
 	@ExceptionHandler(org.springframework.data.rest.webmvc.ResourceNotFoundException.class)
-	public ResponseEntity<Map<String, Object>> handleResourceNotFound(org.springframework.data.rest.webmvc.ResourceNotFoundException ex,
-			WebRequest request) {
+	public ResponseEntity<Map<String, Object>> handleResourceNotFound(
+			org.springframework.data.rest.webmvc.ResourceNotFoundException ex, WebRequest request) {
 		return build(HttpStatus.NOT_FOUND, "Not Found", ex.getMessage(), request);
 	}
 
@@ -41,6 +41,19 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(BadRequestException.class)
 	public ResponseEntity<Map<String, Object>> handleBadRequest(BadRequestException ex, WebRequest request) {
 		return build(HttpStatus.BAD_REQUEST, "Bad Request", ex.getMessage(), request);
+	}
+
+	// ── 400: illegal argument (e.g. composite id format wrong like "got: 2") ─
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<Map<String, Object>> handleIllegalArgument(IllegalArgumentException ex, WebRequest request) {
+		return build(HttpStatus.BAD_REQUEST, "Bad Request", ex.getMessage(), request);
+	}
+
+	// ── 500: JPA/Hibernate entity not found during lazy load ─────────────────
+	@ExceptionHandler(jakarta.persistence.EntityNotFoundException.class)
+	public ResponseEntity<Map<String, Object>> handleEntityNotFound(jakarta.persistence.EntityNotFoundException ex,
+			WebRequest request) {
+		return build(HttpStatus.NOT_FOUND, "Not Found", ex.getMessage(), request);
 	}
 
 	// ── 400: wrong type in path/query param (e.g. "abc" where int expected) ──
@@ -67,49 +80,47 @@ public class GlobalExceptionHandler {
 		return build(HttpStatus.NOT_FOUND, "Not Found",
 				ex.getMessage() != null ? ex.getMessage() : "Resource not found", request);
 	}
-	
+
 	@ExceptionHandler(org.springframework.core.convert.ConversionFailedException.class)
 	public ResponseEntity<Map<String, Object>> handleConversionError(
-	        org.springframework.core.convert.ConversionFailedException ex,
-	        WebRequest request) {
+			org.springframework.core.convert.ConversionFailedException ex, WebRequest request) {
 
-	    String msg = "Invalid value provided. Expected a valid numeric ID.";
+		String msg = "Invalid value provided. Expected a valid numeric ID.";
 
-	    return build(HttpStatus.BAD_REQUEST, "Bad Request", msg, request);
+		return build(HttpStatus.BAD_REQUEST, "Bad Request", msg, request);
 	}
-	
+
+	// ── 400: illegal argument (e.g. composite id wrong format) ───────────────
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<Map<String, Object>> handleIllegalArgument(IllegalArgumentException ex, WebRequest request) {
+		return build(HttpStatus.BAD_REQUEST, "Bad Request", ex.getMessage(), request);
+	}
+
 	@ExceptionHandler(org.springframework.beans.TypeMismatchException.class)
 	public ResponseEntity<Map<String, Object>> handleTypeMismatchGeneral(
-	        org.springframework.beans.TypeMismatchException ex,
-	        WebRequest request) {
+			org.springframework.beans.TypeMismatchException ex, WebRequest request) {
 
-	    String msg = "Type mismatch: please provide correct data type.";
+		String msg = "Type mismatch: please provide correct data type.";
 
-	    return build(HttpStatus.BAD_REQUEST, "Bad Request", msg, request);
+		return build(HttpStatus.BAD_REQUEST, "Bad Request", msg, request);
 	}
-	
+
 	@ExceptionHandler(org.springframework.web.bind.MethodArgumentNotValidException.class)
 	public ResponseEntity<Map<String, Object>> handleValidation(
-	        org.springframework.web.bind.MethodArgumentNotValidException ex,
-	        WebRequest request) {
+			org.springframework.web.bind.MethodArgumentNotValidException ex, WebRequest request) {
 
-	    String msg = ex.getBindingResult()
-	                   .getAllErrors()
-	                   .get(0)
-	                   .getDefaultMessage();
+		String msg = ex.getBindingResult().getAllErrors().get(0).getDefaultMessage();
 
-	    return build(HttpStatus.BAD_REQUEST, "Validation Failed", msg, request);
+		return build(HttpStatus.BAD_REQUEST, "Validation Failed", msg, request);
 	}
-
 
 	@ExceptionHandler(HttpMessageNotReadableException.class)
-	public ResponseEntity<Map<String, Object>> handleJsonParseError(
-	        HttpMessageNotReadableException ex,
-	        WebRequest request) {
+	public ResponseEntity<Map<String, Object>> handleJsonParseError(HttpMessageNotReadableException ex,
+			WebRequest request) {
 
-	    String msg = "Invalid JSON format. Please check your request body.";
+		String msg = "Invalid JSON format. Please check your request body.";
 
-	    return build(HttpStatus.BAD_REQUEST, "Bad Request. " + msg, ex.getMessage(), request);
+		return build(HttpStatus.BAD_REQUEST, "Bad Request. " + msg, ex.getMessage(), request);
 	}
-	
+
 }

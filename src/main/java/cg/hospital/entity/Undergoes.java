@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 @Table(name = "Undergoes")
 public class Undergoes {
 
-    @EmbeddedId
-    private UndergoesId id;
+	@EmbeddedId
+	private UndergoesId id;
 
 	@Column(name = "DateUndergoes")
 	private LocalDateTime dateUndergoes;
@@ -37,6 +37,16 @@ public class Undergoes {
 	// Plain FK value — owns the AssistingNurse column for insert/update
 	@Column(name = "AssistingNurse")
 	private Integer assistingNurseId;
+
+	// Plain FK value — owns the Patient column for insert/update
+	@Column(name = "Patient")
+	private Integer patientId;
+
+	// FK to Patient — @ManyToOne, read-only (patientId owns the column)
+	// Patient PK is SSN (Integer) — matches patientId type
+	@ManyToOne
+	@JoinColumn(name = "Patient", referencedColumnName = "SSN", insertable = false, updatable = false)
+	private Patient patient;
 
 	public Undergoes() {
 	}
@@ -82,18 +92,24 @@ public class Undergoes {
 		return assistingNurseId;
 	}
 
+	public Integer getPatientId() {
+		return patientId;
+	}
+
+	public Patient getPatient() {
+		return patient;
+	}
+
 	// Setters
 	public void setProcedures(Integer procedures) {
-		if (this.id == null) {
+		if (this.id == null)
 			this.id = new UndergoesId();
-		}
 		this.id.setProcedures(procedures);
 	}
 
 	public void setStay(Integer stay) {
-		if (this.id == null) {
+		if (this.id == null)
 			this.id = new UndergoesId();
-		}
 		this.id.setStay(stay);
 	}
 
@@ -119,5 +135,13 @@ public class Undergoes {
 
 	public void setAssistingNurseId(Integer assistingNurseId) {
 		this.assistingNurseId = assistingNurseId;
+	}
+
+	public void setPatientId(Integer patientId) {
+		this.patientId = patientId;
+	}
+
+	public void setPatient(Patient patient) {
+		this.patient = patient;
 	}
 }
